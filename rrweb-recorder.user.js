@@ -3,15 +3,17 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.0.0
 // @description  使用rrweb录制网页操作，方便测试同学快速定位问题
-// @author       You
+// @author       RRWeb Recorder Team
 // @match        *://*/*
 // @grant        none
 // @require      https://cdn.jsdelivr.net/npm/rrweb@latest/dist/rrweb.min.js
-// @downloadURL  https://raw.githubusercontent.com/your-username/rrweb-recorder/main/rrweb-recorder.user.js
-// @updateURL    https://raw.githubusercontent.com/your-username/rrweb-recorder/main/rrweb-recorder.user.js
+// @downloadURL  https://update.greasyfork.org/scripts/123456/rrweb-recorder.user.js
+// @updateURL    https://update.greasyfork.org/scripts/123456/rrweb-recorder.meta.js
+// @supportURL   https://github.com/your-username/rrweb-recorder/issues
+// @homepageURL  https://github.com/your-username/rrweb-recorder
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     // 录制相关变量
@@ -32,7 +34,7 @@
             </div>
             <span class="recorder-text">开始录制</span>
         `;
-        
+
         // 样式
         button.style.cssText = `
             position: fixed;
@@ -146,7 +148,7 @@
             button.style.background = '#f44336';
             text.textContent = '停止录制';
             icon.style.animation = 'pulse 1.5s infinite';
-            
+
             // 添加脉冲动画
             if (!document.getElementById('rrweb-pulse-style')) {
                 const style = document.createElement('style');
@@ -180,15 +182,15 @@
 
         const dataStr = JSON.stringify(recordingData, null, 2);
         const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        
+
         const link = document.createElement('a');
         link.href = URL.createObjectURL(dataBlob);
         link.download = `recording-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`;
-        
+
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        
+
         URL.revokeObjectURL(link.href);
     }
 
